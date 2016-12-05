@@ -26,9 +26,18 @@ namespace AcademyTask.Models
         {
         }
 
+        public DbSet<Friends> Friends { get; set; }
         public static ApplicationDbContext Create()
         {
+            
             return new ApplicationDbContext();
+        }
+    }
+    public class FriendsUpdate:DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext context)
+        {
+            base.Seed(context);
         }
     }
 }

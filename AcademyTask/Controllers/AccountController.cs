@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AcademyTask.Models;
+using System.Collections.Generic;
 
 namespace AcademyTask.Controllers
 {
@@ -149,13 +150,34 @@ namespace AcademyTask.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            ApplicationDbContext context = new ApplicationDbContext();
+            IEnumerable<ApplicationUser> users = conte
+                xt.Users;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var new_user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName=model.LastName };
+                var result = await UserManager.CreateAsync(new_user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    foreach(var user in users)
+                    {
+                        if (new_user != user)
+                        {
+                            var friends = new Friends { Relationships = "not_friends", First_user = new_user, Second_user = user };
+                            context.Friends.Add(friends);
+                        }
+                    }
+                    try
+                    {
+                        await context.SaveChangesAsync();
+                    }
+                    catch(Exception exception)
+                    {
+
+                    };
+
+                    await SignInManager.SignInAsync(new_user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -165,9 +187,10 @@ namespace AcademyTask.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
                 AddErrors(result);
             }
-
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }

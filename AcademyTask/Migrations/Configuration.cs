@@ -9,7 +9,7 @@ namespace AcademyTask.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "AcademyTask.Models.ApplicationDbContext";
         }
 
