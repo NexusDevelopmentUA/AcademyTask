@@ -1,44 +1,50 @@
-﻿
+﻿@model IEnumerable<AcademyTask.Models.Friends>
 @{
     ViewBag.Title = "Home Page";
 }
+
+
+<div class="jumbotron">
+    <div class="table">
+         <div class="table-header">
+            <div class="table-cell">
+                User info
+            </div>
+            <div class="table-cell">
+                Add friend
+            </div>
+         </div>
+        </div>
+        @foreach (var item in ViewBag.Users)
+        {
+
+            if (item.Id.ToString() != ViewBag.CurrentUserId)
+            {
+                <div class="table-row" id="@item.Id">
+                        <div class="table-cell">
+                            <div id="Name"><font size="4"><b>@item.LastName @item.FirstName</b></font><br /></div>
+                            <div id="Email"><font size="4">@item.Email</font></div>
+                        </div>
+                        <div class="table-cell">
+                            <input type="button" class="btn btn-default" id="AddFriendbtn_@item.Id" value="Add Friend" onclick="Click(this.id, this.value)" />
+                            <script type="text/javascript">
+                                function Click(id, value)
+                                {
+                                    var _id = id.replace("AddFriendbtn_", "");
+                                    var _value = value.replace(" ", "");
+                                    //тут звернутись через jQuery||AJAX POST запит до методу контролера
+                                    alert(_value);
+                                }
+                            </script>
+                            <div id="result"></div>
+                        </div>
+                </div>
+            }
+        }
+</div>
 @section Scripts
 {
     @Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive.ajax.imn.js")
+
 }
-<div class="jumbotron">
-    <table class="table">
-        <tr>
-            <th>
-            <td>
-                User info
-            </td>
-            </th>
-            <th>
-            <td>
-                Add friend
-            </td>
-            </th>
-        </tr>
-        @foreach (var item in ViewBag.Users)
-        // ViewBag.Persons
-        {
-            if (item.Id.ToString() != ViewBag.CurrentUserId)
-            {
-            <tr>
-                <th>
-                <td>
-                    <font size="4"><b>@item.LastName @item.FirstName</b></font><br />
-                    <font size="4">@item.Email</font>
-                </td>
-                </th>
-                <th>
-                <td>
-                    <input type="button" class="btn btn-default" id="AddFriendbtn" value="Add" onclick="this.disabled = 1; this.value='Friend'" />
-                </td>
-                </th>
-            </tr>
-            }
-        }
-    </table>
-</div>

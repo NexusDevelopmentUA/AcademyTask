@@ -16,9 +16,32 @@ namespace AcademyTask.Controllers
         {
             var CurrentUserId = User.Identity.GetUserId();
             IEnumerable<ApplicationUser> users = context.Users;
+
             ViewBag.CurrentUserId = CurrentUserId;
             ViewBag.Users = users;
             return View();
+        }
+
+        [HttpPost]
+        public PartialViewResult AddFriend(ApplicationUser first_user, ApplicationUser second_user)
+        {
+            Console.WriteLine("Success!");
+            return PartialView();
+        }
+        [HttpPost]
+        public PartialViewResult RemoveFriend(ApplicationUser first_user, ApplicationUser second_user)
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        public PartialViewResult Subscribe(ApplicationUser first_user, ApplicationUser second_user)
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        public PartialViewResult UnSubscribe(ApplicationUser first_user, ApplicationUser second_user)
+        {
+            return PartialView();
         }
 
         public ActionResult About()

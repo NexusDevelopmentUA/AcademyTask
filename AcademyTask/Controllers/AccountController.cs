@@ -151,8 +151,7 @@ namespace AcademyTask.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             ApplicationDbContext context = new ApplicationDbContext();
-            IEnumerable<ApplicationUser> users = conte
-                xt.Users;
+            IEnumerable<ApplicationUser> users = context.Users;
 
             if (ModelState.IsValid)
             {
@@ -160,23 +159,7 @@ namespace AcademyTask.Controllers
                 var result = await UserManager.CreateAsync(new_user, model.Password);
                 if (result.Succeeded)
                 {
-                    foreach(var user in users)
-                    {
-                        if (new_user != user)
-                        {
-                            var friends = new Friends { Relationships = "not_friends", First_user = new_user, Second_user = user };
-                            context.Friends.Add(friends);
-                        }
-                    }
-                    try
-                    {
-                        await context.SaveChangesAsync();
-                    }
-                    catch(Exception exception)
-                    {
-
-                    };
-
+                   
                     await SignInManager.SignInAsync(new_user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

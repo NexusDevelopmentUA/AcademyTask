@@ -8,8 +8,7 @@ namespace AcademyTask.Models
     public class Friends
     {
         public int ID { get; set; }
-        []
-        public ApplicationUser First_user { get; set; }
+        public ApplicationUser First_user { get; set; } //current user
         public ApplicationUser Second_user { get; set; }
         public string Relationships { get; set; }
     }
