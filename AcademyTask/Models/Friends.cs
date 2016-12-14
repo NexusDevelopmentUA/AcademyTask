@@ -12,4 +12,11 @@ namespace AcademyTask.Models
         public ApplicationUser Second_user { get; set; }
         public string Relationships { get; set; }
     }
+
+    public class FriendsViewModel
+    {
+        public int ID { get; set; }
+        public ApplicationUser First_user { get; set; }
+        public string Relationships { get; set; }
+    }
 }
